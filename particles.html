@@ -17,7 +17,7 @@
 		</style>
 		<script>
 			var canvas, ctx, count=0;
-			var particles = [], particlesCount = prompt("particlesCount", 300), particlesDistance = prompt("particlesDistance", 150);
+			var particles = [], particlesCount = (location.hash=="#fromindex")? 30 : prompt("particlesCount", 300), particlesDistance = (location.hash=="#fromindex")? 100 : prompt("particlesDistance", 150);
 			window.onload = function() {
 				canvas = document.getElementById("canvas");
 				canvas.width = window.innerWidth;

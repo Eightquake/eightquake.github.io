@@ -27,6 +27,11 @@
 					mouse.x = e.x;
 					mouse.y = e.y;
 				});
+				
+				if(location.hash == "#fromindex") {
+					mouse.x = canvas.width/2;
+					mouse.y = canvas.height - 20;
+				}
 				updateParticles();
 			}
 			

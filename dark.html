@@ -7,22 +7,17 @@
 				margin:0;
 				cursor:none;
 			}
-			img {
-				position:absolute;
-				top:0;
-				left:0;
-				width:1920px;
-				height:955;
-			}
 			canvas {
 				position:absolute;
 				top:0;
 				left:0;
+				background-image:url("balance.jpg");
+				background-size:cover;
 			}
 		</style>
 		<script>
 			var canvas, context;
-			var mouse = {x: undefined, y:undefined};
+			var mouse = {};
 			window.onload = function() {
 				canvas = document.getElementById("canvas");
 				canvas.width = window.innerWidth;
@@ -49,7 +44,6 @@
 		</script>
 	</head>
 	<body>
-		<img src="balance.jpg">
 		<canvas id="canvas"></canvas>
 	</body>
 </html>
