@@ -1,0 +1,89 @@
+<html>
+	<head>
+		<title>Particles</title>
+		<meta charset="UTF-8">
+		<style>
+			html, body {
+				margin:0;
+				width:100%;
+				height:100%;
+				background-color:#333;
+			}
+			#canvas {
+				position:absolute;
+				top:0;
+				left:0;
+			}
+		</style>
+		<script>
+			var canvas, ctx, count=0;
+			var particles = [], particlesCount = prompt("particlesCount", 300), particlesDistance = prompt("particlesDistance", 150);
+			window.onload = function() {
+				canvas = document.getElementById("canvas");
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				
+				ctx = canvas.getContext("2d");
+				
+				for(var i=0;i < particlesCount; i++) {
+					particles[i] = {};
+					particles[i].x = Math.round(Math.random()*canvas.width);
+					particles[i].y = Math.round(Math.random()*canvas.height);
+					particles[i].direction = Math.round((Math.random()*360)-180);
+					
+					if(particles[i].x <= 5) {	particles[i].x = 6;	}
+					if(particles[i].x >= canvas.width -5) {	particles[i].x = canvas.width-6;	}
+					
+					if(particles[i].y <= 5) {	particles[i].y = 6;	}
+					if(particles[i].y >= canvas.height -5) {	particles[i].y = canvas.height-6;	}
+				}
+				canvasUpdate();
+			}
+			function canvasUpdate() {
+				requestAnimationFrame(canvasUpdate);
+				
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+				for(var i=0;i < particlesCount;i++) {
+					if((particles[i].x <= 5 || particles[i].x >= canvas.width-5) && particles[i].caninvert) {
+						particles[i].direction -= 180;
+						particles[i].caninvert = false;
+					} else {
+						particles[i].caninvert = true;
+					}
+					if((particles[i].y <= 5 || particles[i].y >= canvas.height-5) && particles[i].caninvert) {
+						particles[i].direction += 180;
+						particles[i].caninvert = false;
+					} else {
+						particles[i].caninvert = true;
+					}
+
+					particles[i].y += Math.round(Math.sin(particles[i].direction));
+					particles[i].x += Math.round(Math.cos(particles[i].direction));
+
+					
+					for(var pC=0;pC < particlesCount;pC++) {
+						if(particles[i+pC] != undefined) {
+							var distance = Math.sqrt(Math.pow(particles[i].x-particles[i+pC].x, 2)+Math.pow(particles[i].y-particles[i+pC].y, 2));
+							if(distance < particlesDistance) {
+								ctx.beginPath();
+								ctx.moveTo(particles[i].x, particles[i].y);
+								ctx.lineTo(particles[i+pC].x, particles[i+pC].y);
+								ctx.strokeStyle = "hsl(0, 0%, " + (50/distance)*100 + "%)";
+								ctx.stroke();
+							} else {
+								ctx.closePath();
+							}
+						}
+					}
+					ctx.beginPath();
+					ctx.arc(particles[i].x, particles[i].y, 3, 0, 2 * Math.PI);
+					ctx.fillStyle = "#FFF";
+					ctx.fill();
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+	</body>
+<html>
