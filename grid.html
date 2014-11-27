@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<title>Grid</title>
+		<meta charset="UTF-8">
+		<style>
+			body {
+				margin:0;
+				width:100%;
+				height:100%;
+			}
+			canvas {
+				
+			}
+		</style>
+		<script>
+			var canvas, context;
+			var circles = [];
+			var mouse = {};
+			window.onload = function() {
+				canvas = document.getElementById("canvas");
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				
+				context = canvas.getContext("2d");
+				
+				for(var y=0;y<canvas.height/20;y++) {
+					for(var x=0;x<canvas.width/20;x++) {
+						circles.push({x: x*40, y: y*40, opacity:0.3});
+					}
+				}
+				if(location.hash=="#fromindex") {
+					mouse.x = canvas.width/2;
+					mouse.y = canvas.height/2;
+				}
+				drawCircles();
+			}
+			window.onmousemove = function(e) {
+				mouse.x = e.x;
+				mouse.y = e.y;
+			}
+			function drawCircles() {
+				requestAnimationFrame(drawCircles);
+				context.clearRect(0,0,canvas.width,canvas.height);
+				context.fillStyle="#333";
+				context.fillRect(0,0,canvas.width,canvas.height);
+				
+				for(var i=0;i<circles.length;i++) {
+					var distance = Math.sqrt(Math.pow(circles[i].x-mouse.x, 2)+Math.pow(circles[i].y-mouse.y, 2));
+					if(distance < 200) {
+						circles[i].opacity = 2/distance;
+					} else {
+						circles[i].opacity = 0.0;
+					}
+					context.fillStyle="rgba(255, 255, 255, " + circles[i].opacity + ")";
+					context.beginPath();
+					context.arc(circles[i].x, circles[i].y, 10, 0, 2 * Math.PI);
+					context.fill();
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas">
+	</body>
+</html>
