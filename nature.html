@@ -13,11 +13,15 @@
 			var canvas, context, tileWidth, tileHeight;
 			var population = [];
 			var habitat = [
-				[0,0,0,0,0,0,0,0,0,0,0,0,0],
-				[0,0,0,0,0,0,0,0,0,0,0,0,0],
-				[1,1,0,0,0,0,0,0,0,0,0,1,1],
-				[1,1,1,2,2,2,2,2,2,2,1,1,1],
-				[1,1,1,1,2,2,2,2,2,1,1,1,1]
+				[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+				[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+				[1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1],
+				[1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+				[1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 			];
 			window.onload = function() {
 				canvas = document.getElementById("canvas");
@@ -26,8 +30,8 @@
 				canvas.width = window.innerWidth;
 				canvas.height = window.innerHeight;
 				
-				tileWidth = canvas.width/habitat[0].length;
-				tileHeight = canvas.height/habitat.length;
+				tileWidth = Math.round(canvas.width/habitat[0].length);
+				tileHeight = Math.round(canvas.height/habitat.length);
 				
 				populate();
 				draw();
@@ -52,6 +56,14 @@
 						this.type="grass";
 						break;
 				}
+				var x = Math.round(Math.random() * canvas.width/tileWidth);
+				var y = Math.round(Math.random() * canvas.height/tileHeight);
+				while(!habitat[y][x] === 0) {
+					x = Math.round(Math.random() * canvas.width);
+					y = Math.round(Math.random() * canvas.height);
+				}
+				this.x = x;
+				this.y = y;
 			}
 			function populate() {
 				if(population.length < 20) {
@@ -82,6 +94,9 @@
 								break;
 						}
 					}
+				}
+				for(var i=0;i<population.length;i++) {
+					drawRect(population[i].x*tileWidth,population[i].y*tileHeight,tileWidth,tileHeight,"#CCC");
 				}
 			}
 		</script>

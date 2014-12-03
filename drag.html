@@ -62,18 +62,6 @@
 					}
 				}
 			}
-			var fadeOutIntervals = [];
-			function fadeOutParticle(i) {
-				fadeOutIntervals[0] = setInterval(function() {
-					if(particles[i].opacity > 0.3) {
-						particles[i].opacity --;
-					} else {
-						clearInterval(fadeOutIntervals[0]);
-						particles.splice(i, 1)
-						particleCount--;
-					}
-				}, 500);
-			}
 		</script>
 	</head>
 	<body>
