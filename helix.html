@@ -1,0 +1,80 @@
+<html>
+	<head>
+		<title>Helix</title>
+		<meta charset="UTF-8">
+		<style>
+			body {
+				width:100%;
+				height:100%;
+				margin:0;
+			}
+		</style>
+		<script>
+			var canvas, context;
+			var helix = [];
+			var previousHelixPoint = {};
+			var drawCount = 0;
+			window.onload = function() {
+				canvas = document.getElementById("canvas");
+				context = canvas.getContext("2d");
+				
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				
+				previousHelixPoint.x = canvas.width/2 - 50;
+				previousHelixPoint.y = 0;
+				for(var i=0;i<20;i++) {
+					helix[i] = {};
+					if(i%2) {
+						helix[i].x = previousHelixPoint.x+50;
+						helix[i].y = previousHelixPoint.y;
+						helix[i].direction = 0;
+					} else {
+						helix[i].x = previousHelixPoint.x-50;
+						helix[i].y = previousHelixPoint.y+50;
+						helix[i].direction = 180;
+					}
+					helix[i].delay = i*40;
+					previousHelixPoint = helix[i];
+				}
+				
+				draw();
+			}
+			
+			function draw() {
+				requestAnimationFrame(draw);
+				context.clearRect(0,0,canvas.width,canvas.height);
+				
+				context.fillStyle="#333";
+				context.fillRect(0,0,canvas.width,canvas.height);
+				context.fillStyle="#FFF";
+				context.strokeStyle="#FFF";
+				
+				
+				for(var i=0;i<helix.length;i++) {
+					
+					context.beginPath();
+					context.arc(helix[i].x, helix[i].y, 4, 0, 2 * Math.PI);
+					context.fill();
+					
+					if(helix[i+1] != undefined && (helix[i].y == helix[i+1].y)) {
+						context.beginPath();
+						context.moveTo(helix[i].x, helix[i].y);
+						context.lineTo(helix[i+1].x, helix[i+1].y);
+						context.stroke();
+					}
+					if(helix[i+2] != undefined) {
+						context.beginPath();
+						context.moveTo(helix[i].x, helix[i].y);
+						context.lineTo(helix[i+2].x, helix[i+2].y);
+						context.stroke();
+					}
+					drawCount++;
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+	</body>
+</html>

@@ -1,0 +1,71 @@
+<html>
+	<head>
+		<title>Blocks</title>
+		<meta charset="UTF-8">
+		<style>
+			body {
+				width:100%;
+				height:100%;
+				margin:0;
+			}
+		</style>
+		<script>
+			var canvas, context;
+			var blocks = [];
+			var gravity = 0.2;
+			window.onload = function() {
+				canvas = document.getElementById("canvas");
+				context = canvas.getContext("2d");
+				
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				
+				for(var i=0;i<20;i++) {
+					blocks[i] = {};
+					
+					blocks[i].x = Math.round(Math.random() * canvas.width);
+					blocks[i].y = Math.round(Math.random() * 100);
+					blocks[i].vy = Math.round(Math.random() * 10);
+					blocks[i].caninvert = true;
+				}
+				draw();
+			}
+			
+			function draw() {
+				requestAnimationFrame(draw);
+				
+				context.clearRect(0,0,canvas.width,canvas.height);
+				context.fillStyle="#333";
+				context.fillRect(0,0,canvas.width,canvas.height);
+				
+				context.strokeStyle="#FFF";
+				context.beginPath();
+				context.moveTo(0,canvas.height-2);
+				context.lineTo(canvas.width, canvas.height-2);
+				context.stroke();
+				for(var i=0;i<blocks.length;i++) {
+					context.beginPath();
+					context.moveTo(blocks[i].x, blocks[i].y);
+					context.lineTo(blocks[i].x+25, blocks[i].y);
+					context.lineTo(blocks[i].x+25, blocks[i].y+25);
+					context.lineTo(blocks[i].x, blocks[i].y+25);
+					context.lineTo(blocks[i].x, blocks[i].y);
+					context.stroke();
+					
+					blocks[i].y += Math.round(blocks[i].vy);
+					if(blocks[i].y >= canvas.height-30 && blocks[i].caninvert) {
+						blocks[i].vy = -Math.round(blocks[i].vy * 0.75);
+						blocks[i].caninvert = false;
+					} else if(blocks[i].y < canvas.height-35) {
+						blocks[i].vy += gravity;
+						blocks[i].caninvert = true;
+					}
+					
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+	</body>
+</html>
