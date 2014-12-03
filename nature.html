@@ -10,12 +10,12 @@
 			}
 		</style>
 		<script>
-			var canvas, context;
+			var canvas, context, tileWidth, tileHeight;
 			var population = [];
 			var habitat = [
 				[0,0,0,0,0,0,0,0,0,0,0,0,0],
 				[0,0,0,0,0,0,0,0,0,0,0,0,0],
-				[1,0,0,0,0,0,0,0,0,0,0,0,1],
+				[1,1,0,0,0,0,0,0,0,0,0,1,1],
 				[1,1,1,2,2,2,2,2,2,2,1,1,1],
 				[1,1,1,1,2,2,2,2,2,1,1,1,1]
 			];
@@ -26,18 +26,61 @@
 				canvas.width = window.innerWidth;
 				canvas.height = window.innerHeight;
 				
+				tileWidth = canvas.width/habitat[0].length;
+				tileHeight = canvas.height/habitat.length;
+				
 				populate();
 				draw();
 			}
+			function coll() {
+				return;
+			}
+			function drawRect(x,y,w,h,c) {
+				context.fillStyle=c;
+				context.fillRect(x,y,w,h);
+			}
 			function Habitant() {
-				this.type = "Fish";
-				this.x = 5;
-				this.y = 5;
+				var random = Math.round(Math.random()* 2);
+				switch(random) {
+					case 0:
+						this.type="fish";
+						break;
+					case 1:
+						this.type="bird";
+						break;
+					case 2:
+						this.type="grass";
+						break;
+				}
 			}
 			function populate() {
-				if(population.length < 150) {
-					for(var i=population.length;i<150;i++) {
+				if(population.length < 20) {
+					for(var i=population.length;i<20;i++) {
 						population[i] = new Habitant();
+					}
+				}
+			}
+			function draw() {
+				requestAnimationFrame(draw);
+				context.clearRect(0,0,canvas.width,canvas.height);
+
+				drawRect(0,0,canvas.width,canvas.height,"#6D9CFF");
+				
+				for(var y=0;y<habitat.length;y++) {
+					for(var x=0;x<habitat[y].length;x++) {
+						var block = habitat[y][x];
+						switch(block) {
+							case 0:
+								break;
+							case 1:
+								drawRect(x*tileWidth,y*tileHeight,tileWidth,tileHeight,"#E8761C");
+								break;
+							case 2:
+								context.globalAlpha=0.7;
+								drawRect(x*tileWidth,y*tileHeight,tileWidth,tileHeight,"#7987FF");
+								context.globalAlpha=1;
+								break;
+						}
 					}
 				}
 			}
