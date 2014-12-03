@@ -8,6 +8,7 @@
 				height:100%;
 				margin:0;
 				color:#FFF;
+				background-color:#444;
 				font-family:Arial;
 			}
 			header {
@@ -26,9 +27,7 @@
 				}
 				
 			article {
-				background-color:#444;
 				width:100%;
-				height:100%;
 				text-align:center;
 			}
 				article h2 {
@@ -38,22 +37,25 @@
 				}
 				article #iframe-wrapper {
 					width:50%;
+					height:auto;
 					margin:0 auto 0 auto;
 				}
-					#iframe-wrapper iframe {
+					#iframe-single-wrapper {
 						float:left;
 						width:calc(50% - 10px);
-						height:auto;
+						height:330px;
 						border:2px solid #CCC;
 						padding:0;
 						margin:3px;
 					}
-					
-					#iframe-wrapper a {
+					#iframe-single-wrapper iframe {
+						border:none;
+						width:100%;
+					}
+					#iframe-single-wrapper a {
 						color:#FFF;
-						display:block;
-						width:50%;
-						float:left;
+						text-decoration:none;
+						font-size:24px;
 					}
 		</style>
 	</head>
@@ -64,16 +66,7 @@
 			<p>I only publish small tests here, <a href="http://victordavidsson.se">visit my website to view more.</a></p>
 		</header>
 		<article>
-			<h2>Below is every test I have here:</h2>
-			<section id="iframe-wrapper">
-				<iframe src="drag.html#fromindex" width="300" height="300"></iframe>
-				<iframe src="particles.html#fromindex" width="300" height="300"></iframe>
-				<a href="drag.html" target="_blank">drag.html</a>
-				<a href="particles.html" target="_blank">particles.html</a>
-				<iframe src="snow.html#fromindex" width="300" height="300"></iframe>
-				<iframe src="grid.html#fromindex" width=300" height="300"></iframe>
-				<a href="snow.html>" target="_blank">snow.html</a>
-				<a href="grid.html" target="_blank">grid.html</a>
+			<section id="iframe-wrapper"><div id="iframe-single-wrapper"><iframe src="blocks.html#fromindex" width="300" height="300"></iframe><a href="blocks.html#fromindex" target="_blank">blocks.html</a></div><div id="iframe-single-wrapper"><iframe src="dark.html#fromindex" width="300" height="300"></iframe><a href="dark.html#fromindex" target="_blank">dark.html</a></div><div id="iframe-single-wrapper"><iframe src="drag.html#fromindex" width="300" height="300"></iframe><a href="drag.html#fromindex" target="_blank">drag.html</a></div><div id="iframe-single-wrapper"><iframe src="grid.html#fromindex" width="300" height="300"></iframe><a href="grid.html#fromindex" target="_blank">grid.html</a></div><div id="iframe-single-wrapper"><iframe src="helix.html#fromindex" width="300" height="300"></iframe><a href="helix.html#fromindex" target="_blank">helix.html</a></div><div id="iframe-single-wrapper"><iframe src="nature.html#fromindex" width="300" height="300"></iframe><a href="nature.html#fromindex" target="_blank">nature.html</a></div><div id="iframe-single-wrapper"><iframe src="particles.html#fromindex" width="300" height="300"></iframe><a href="particles.html#fromindex" target="_blank">particles.html</a></div><div id="iframe-single-wrapper"><iframe src="snow.html#fromindex" width="300" height="300"></iframe><a href="snow.html#fromindex" target="_blank">snow.html</a></div>
 			</section>
 		</article>
 	</body>
