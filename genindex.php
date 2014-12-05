@@ -72,7 +72,7 @@
 					if($document != "index.html") {
 						$html .= '<div id="iframe-single-wrapper">';
 						$html .= '<iframe src="' . $document . '#fromindex" width="300" height="300"></iframe>';
-						$html .= '<a href="' . $document . '#fromindex" target="_blank">' . $document . '</a>';
+						$html .= '<a href="' . $document . '" target="_blank">' . $document . '</a>';
 						$html .= '</div>';
 					}
 				}

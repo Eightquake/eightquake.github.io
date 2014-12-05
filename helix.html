@@ -13,7 +13,6 @@
 			var canvas, context;
 			var helix = [];
 			var previousHelixPoint = {};
-			var drawCount = 0;
 			window.onload = function() {
 				canvas = document.getElementById("canvas");
 				context = canvas.getContext("2d");
@@ -57,19 +56,18 @@
 					context.arc(helix[i].x, helix[i].y, 4, 0, 2 * Math.PI);
 					context.fill();
 					
-					if(helix[i+1] != undefined && (helix[i].y == helix[i+1].y)) {
+					if(helix[i+1] && (helix[i].y == helix[i+1].y)) {
 						context.beginPath();
 						context.moveTo(helix[i].x, helix[i].y);
 						context.lineTo(helix[i+1].x, helix[i+1].y);
 						context.stroke();
 					}
-					if(helix[i+2] != undefined) {
+					if(helix[i+2]) {
 						context.beginPath();
 						context.moveTo(helix[i].x, helix[i].y);
 						context.lineTo(helix[i+2].x, helix[i+2].y);
 						context.stroke();
 					}
-					drawCount++;
 				}
 			}
 		</script>
