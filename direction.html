@@ -1,0 +1,66 @@
+<html>
+	<head>
+		<title>Direction</title>
+		<meta charset="UTF-8">
+		<style>
+			body {
+				width:100%;
+				height:100%;
+				margin:0;
+			}
+		</style>
+		<script>
+			var canvas, context;
+			var points = [], direction;
+			window.onload = function() {
+				canvas = document.getElementById("canvas");
+				context = canvas.getContext("2d");
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				
+				points.push({x:canvas.width/2, y:canvas.height/2});
+				points.push({x:100, y:100});
+				
+				draw();
+			}
+			window.onmousedown = function(e) {
+				if(Math.sqrt(Math.pow(points[0].x - e.x, 2) + Math.pow(e.y - points[0].y, 2)) > 100) {
+					points[1] = {x:e.x, y:e.y};
+				}
+			}
+			function draw() {
+				requestAnimationFrame(draw);
+				
+				context.clearRect(0,0,canvas.width,canvas.height);
+				
+				context.fillStyle="#333";
+				context.fillRect(0,0,canvas.width,canvas.height);
+				
+				context.fillStyle="#FFF";
+				context.strokeStyle="#FFF";
+				context.beginPath();
+				context.arc(points[0].x,points[0].y, 5, 0, 2 * Math.PI);
+				context.fill();
+				
+				context.beginPath();
+				context.arc(points[1].x,points[1].y, 5, 0, 2 * Math.PI);
+				context.fill();
+				
+				direction = (Math.atan2(points[1].y - points[0].y, points[1].x - points[0].x)) * 180 / Math.PI;
+				
+				if(Math.sqrt(Math.pow(points[0].x - points[1].x, 2) + Math.pow(points[0].y - points[1].y, 2)) > 100) {
+					points[0].x += Math.cos(direction);
+					points[0].y += Math.sin(direction);
+				}
+				
+				context.beginPath();
+				context.moveTo(points[0].x, points[0].y);
+				context.lineTo(points[0].x + (Math.cos(direction)*100), points[0].y + (Math.sin(direction)*100));
+				context.stroke();
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+	</body>
+</html>
