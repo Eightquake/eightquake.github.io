@@ -1,0 +1,54 @@
+<html>
+	<head>
+		<title>Visualisation</title>
+		<meta charset="UTF-8">
+		<style>
+			body {
+				width:100%;
+				height:100%;
+				margin:0;
+			}
+		</style>
+		<script>
+			var canvas, context, acontext;
+			var count = 124;
+			var acontext, audio, asrc, analyser, frequencyData;
+			window.onload = function() {
+				canvas = document.getElementById("canvas");
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+				context = canvas.getContext("2d"); // canvas context
+				
+				
+				acontext = new AudioContext(); // audio context
+				audio = document.getElementById("audio");
+				asrc = acontext.createMediaElementSource(audio);
+				analyser = acontext.createAnalyser();
+				asrc.connect(acontext.destination);
+				asrc.connect(analyser);
+				
+				frequencyData = new Uint8Array(analyser.frequencyBinCount);
+				
+				render();
+				audio.play();
+			}
+			function render() {
+				requestAnimationFrame(render);
+				
+				context.clearRect(0, 0, canvas.width, canvas.height);
+				context.fillStyle="#333";
+				context.fillRect(0, 0, canvas.width, canvas.height);
+				
+				context.fillStyle="#FFF";
+				analyser.getByteFrequencyData(frequencyData);
+				for(var i=0;i<1024;i++) {
+					if(i%count) context.fillRect(i*(canvas.width/count), canvas.height, canvas.width/count, -frequencyData[i]*3);
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+		<audio id="audio" src="songs/feelsoclose.mp3"></audio>
+	</body>
+<html>
