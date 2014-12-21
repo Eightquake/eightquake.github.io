@@ -1,0 +1,88 @@
+<html>
+	<head>
+		<title>JS Colors</title>
+		<meta charset="UTF-8">
+		<style>
+			body {
+				width:100%;
+				height:100%;
+				margin:0;
+			}
+				#colors-wrapper {
+					width:50%;
+					height:150px;
+					padding-top:100px;
+					margin:10% auto;
+					background:#333;
+				}
+				.colors {
+					width:25%;
+					height:50px;
+					float:left;
+					transition:0.5s;
+					opacity:0.5;
+					text-align:center;
+					color:#FFF;
+					line-height:50px;
+				}
+				#red {
+					background:#F00;
+				}
+				#red:hover:before {
+					content:"red";
+				}
+				#green {
+					background:#0F0;
+				}
+				#green:hover:before {
+					content:"green";
+				}
+				#blue {
+					background:#00F;
+				}
+				#blue:hover:before {
+					content:"blue";
+				}
+				#black {
+					background:#000;
+				}
+				#black:hover:before {
+					content:"black";
+				}
+				.active {
+					width:40%;
+					opacity:0.8;
+				}
+				.inactive {
+					width:20%;
+				}
+		</style>
+		<script>
+			function mouseover(elem) {
+				for(var i=0;i<document.getElementsByClassName("colors").length;i++) {
+					if(document.getElementsByClassName("colors")[i] == elem) {
+						elem.className += " active";
+					} else {
+						document.getElementsByClassName("colors")[i].className += " inactive";
+					}
+				}
+			}
+			function mouseout(elem) {
+				for(var i=0;i<document.getElementsByClassName("colors").length;i++) {
+					document.getElementsByClassName("colors")[i].className = "colors";
+				}
+			}
+			function mousedown(elem) {
+				elem.class+= " focus";
+			}
+		</script>
+	</head>
+	<body>
+		<div id="colors-wrapper">
+			<div id="red" class="colors" onmouseover="mouseover(this)" onmouseleave="mouseout(this)"></div>
+			<div id="green" class="colors" onmouseover="mouseover(this)" onmouseleave="mouseout(this)"></div>
+			<div id="blue" class="colors" onmouseover="mouseover(this)" onmouseleave="mouseout(this)"></div>
+			<div id="black" class="colors" onmouseover="mouseover(this)" onmouseleave="mouseout(this)"></div>
+		</div>
+	</body>
+</html>
