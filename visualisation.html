@@ -34,7 +34,7 @@
 
 				acontext = new AudioContext(); // audio context
 				audio = document.getElementById("audio");
-				audio.volume = 0.5;
+				audio.volume = (location.hash!="#fromindex")?0.5:0;
 				asrc = acontext.createMediaElementSource(audio);
 				analyser = acontext.createAnalyser();
 				asrc.connect(acontext.destination);
