@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 	<head>
 		<title>Visualisation</title>
 		<meta charset="UTF-8">
@@ -8,23 +8,27 @@
 				height:100%;
 				margin:0;
 			}
+            #canvas {
+                margin:0;
+            }
 		</style>
 		<script>
-			var canvas, context, acontext;
-			var count = 1024;
+            var canvas, context;
+            var song = "http://eightquake.github.io/songs/Now.mp3";
 			var acontext, audio, asrc, analyser, frequencyData;
-			var staples = [];
+			var staples = [], width;
 			window.onresize = function() {
 				canvas.width = window.innerWidth;
 				canvas.height = window.innerHeight;
+				width = (canvas.width * 0.75) / 32;
 			}
-			window.onload = function() {
+			window.onload = function () {
 				canvas = document.getElementById("canvas");
 				canvas.width = window.innerWidth;
 				canvas.height = window.innerHeight;
+				width = (canvas.width * 0.75) / 32;
 				context = canvas.getContext("2d"); // canvas context
-				
-				
+
 				acontext = new AudioContext(); // audio context
 				audio = document.getElementById("audio");
 				audio.volume = 1;
@@ -35,6 +39,7 @@
 				
 				frequencyData = new Uint8Array(analyser.frequencyBinCount);
 				render();
+				audio.src = song;
 				audio.play();
 			}
 			function render() {
@@ -47,18 +52,25 @@
 				context.fillStyle="#FFF";
 				analyser.getByteFrequencyData(frequencyData);
 				var z = 0;
-				for(var i=0;i<frequencyData.length-20;i+=20) {
-					z++;
-					staples[z] = (frequencyData[i]+frequencyData[i+1]+frequencyData[i+2]+frequencyData[i+3]+frequencyData[i+4]+frequencyData[i+5]+frequencyData[i+6]+frequencyData[i+7]+frequencyData[i+8]+frequencyData[i+9]+frequencyData[i+10]+frequencyData[i+11]+frequencyData[i+12]+frequencyData[i+13]+frequencyData[i+14]+frequencyData[i+15]+frequencyData[i+16]+frequencyData[i+17]+frequencyData[i+18]+frequencyData[i+19])/20;
+				var sum = 0;
+				for (var i = 0; i < frequencyData.length; i++) {
+				    if (i > 0 && i % 32 == 0) {
+				        staples[z] = sum / 32;
+				        sum = 0;
+				        z++;
+				    } else {
+				        sum += frequencyData[i];
+				    }
 				}
 				for(var i=0;i<staples.length;i++) {
-					context.fillRect(i*(canvas.width/(staples.length)), canvas.height-100, Math.round(canvas.width/(staples.length)-1), -staples[i]*2+2);
+				    context.fillRect(canvas.width * 0.125 + (i * (width)), canvas.height / 2, width, -staples[i] - 2);
 				}
+				context.fillRect(canvas.width * 0.125 - 10, canvas.height / 2 + 5, width * staples.length + 20, 5);
 			}
 		</script>
 	</head>
 	<body>
 		<canvas id="canvas"></canvas>
-		<audio id="audio" src="songs/apollo.mp3"></audio>
+		<audio id="audio"></audio>
 	</body>
-<html>
+</html>
