@@ -11,7 +11,7 @@
 		</style>
 		<script>
 			var canvas, context, acontext;
-			var count = 124;
+			var count = 1024;
 			var acontext, audio, asrc, analyser, frequencyData;
 			window.onload = function() {
 				canvas = document.getElementById("canvas");
@@ -22,13 +22,13 @@
 				
 				acontext = new AudioContext(); // audio context
 				audio = document.getElementById("audio");
+				audio.volume = 0.1;
 				asrc = acontext.createMediaElementSource(audio);
 				analyser = acontext.createAnalyser();
 				asrc.connect(acontext.destination);
 				asrc.connect(analyser);
 				
 				frequencyData = new Uint8Array(analyser.frequencyBinCount);
-				
 				render();
 				audio.play();
 			}
@@ -41,14 +41,17 @@
 				
 				context.fillStyle="#FFF";
 				analyser.getByteFrequencyData(frequencyData);
-				for(var i=0;i<1024;i++) {
-					if(i%count) context.fillRect(i*(canvas.width/count), canvas.height, canvas.width/count, -frequencyData[i]*3);
+				for(var i=0;i<frequencyData.length:i++) {
+					
+				}
+				for(var i=0;i<frequencyData.length;i++) {
+					/*if(i%count) */context.fillRect(i*(canvas.width/count), canvas.height, Math.round(canvas.width/count), -frequencyData[i]);
 				}
 			}
 		</script>
 	</head>
 	<body>
 		<canvas id="canvas"></canvas>
-		<audio id="audio" src="songs/feelsoclose.mp3"></audio>
+		<audio id="audio" src="songs/apollo.mp3"></audio>
 	</body>
 <html>
