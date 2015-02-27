@@ -14,7 +14,7 @@
 		</style>
 		<script>
             var canvas, context;
-            var song = "http://eightquake.github.io/songs/Now.mp3";
+            var song = "http://eightquake.github.io/songs/peacock.mp3";
 			var acontext, audio, asrc, analyser, frequencyData;
 			var staples = [], width;
 			window.onresize = function() {
@@ -31,7 +31,7 @@
 
 				acontext = new AudioContext(); // audio context
 				audio = document.getElementById("audio");
-				audio.volume = 1;
+				audio.volume = 0.5;
 				asrc = acontext.createMediaElementSource(audio);
 				analyser = acontext.createAnalyser();
 				asrc.connect(acontext.destination);
