@@ -13,6 +13,11 @@
 			var canvas, context, acontext;
 			var count = 1024;
 			var acontext, audio, asrc, analyser, frequencyData;
+			var staples = [];
+			window.onresize = function() {
+				canvas.width = window.innerWidth;
+				canvas.height = window.innerHeight;
+			}
 			window.onload = function() {
 				canvas = document.getElementById("canvas");
 				canvas.width = window.innerWidth;
@@ -22,7 +27,7 @@
 				
 				acontext = new AudioContext(); // audio context
 				audio = document.getElementById("audio");
-				audio.volume = 0.1;
+				audio.volume = 1;
 				asrc = acontext.createMediaElementSource(audio);
 				analyser = acontext.createAnalyser();
 				asrc.connect(acontext.destination);
@@ -41,11 +46,13 @@
 				
 				context.fillStyle="#FFF";
 				analyser.getByteFrequencyData(frequencyData);
-				for(var i=0;i<frequencyData.length:i++) {
-					
+				var z = 0;
+				for(var i=0;i<frequencyData.length-20;i+=20) {
+					z++;
+					staples[z] = (frequencyData[i]+frequencyData[i+1]+frequencyData[i+2]+frequencyData[i+3]+frequencyData[i+4]+frequencyData[i+5]+frequencyData[i+6]+frequencyData[i+7]+frequencyData[i+8]+frequencyData[i+9]+frequencyData[i+10]+frequencyData[i+11]+frequencyData[i+12]+frequencyData[i+13]+frequencyData[i+14]+frequencyData[i+15]+frequencyData[i+16]+frequencyData[i+17]+frequencyData[i+18]+frequencyData[i+19])/20;
 				}
-				for(var i=0;i<frequencyData.length;i++) {
-					/*if(i%count) */context.fillRect(i*(canvas.width/count), canvas.height, Math.round(canvas.width/count), -frequencyData[i]);
+				for(var i=0;i<staples.length;i++) {
+					context.fillRect(i*(canvas.width/(staples.length)), canvas.height-100, Math.round(canvas.width/(staples.length)-1), -staples[i]*2+2);
 				}
 			}
 		</script>
