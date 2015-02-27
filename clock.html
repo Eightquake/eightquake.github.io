@@ -1,0 +1,80 @@
+<html>
+	<head>
+		<title>Klocka</title>
+		<meta charset="UTF-8">
+		<style>
+			body {
+				width:100%;
+				height:100%;
+				margin:0;
+			}
+			canvas {
+				position:absolute;
+				top:50%;
+				left:50%;
+				margin-left:-250px;
+				margin-top:-250px;
+				display:block;
+			}
+		</style>
+		<script>
+			var c, ctx, debug = false, showSeconds = false;
+			var hours, minutes, seconds;
+			window.onload = function() {
+				c = document.getElementById("canvas");
+				ctx = c.getContext("2d");
+				c.width = 500
+				c.height = 500
+				
+				ctx.textBaseline="middle";
+				render();
+			}
+			function render() {
+				requestAnimationFrame(render);
+				ctx.clearRect(0, 0, c.width, c.height);
+				ctx.fillStyle = "#333";
+				ctx.fillRect(0, 0, c.width, c.height);
+				
+				hours = new Date().getHours();
+				ctx.fillStyle = "#FFF";
+				ctx.font = c.width/10 + "px Arial";
+				ctx.textAlign = "center";
+				ctx.fillText(hours, c.width / 2, c.height / 2);
+				
+				minutes = new Date().getMinutes();
+				ctx.font = c.width/15 + "px Arial";
+				var mx = c.width/2 + -((c.width/4) * Math.cos(toRad(90 + minutes*6)));
+				var my = c.height/2 + -((c.height/4) * Math.sin(toRad(90 + minutes*6)));
+				ctx.fillText((minutes<10)?"0"+minutes:minutes, mx, my);
+				
+				if(showSeconds) {
+					seconds = new Date().getSeconds();
+					ctx.font = c.width/20 + "px Arial";
+					var sx = c.width/2 + -((c.width/3) * Math.cos(toRad(90 + seconds*6)));
+					var sy = c.height/2 + -((c.height/3) * Math.sin(toRad(90 + seconds*6)));
+					ctx.fillText((seconds<10)?"0"+seconds:seconds, sx, sy);
+				}
+				
+				if(debug) {
+				ctx.strokeStyle="#FFF";
+				ctx.beginPath();
+				ctx.arc(c.width/2, c.height/2, c.width/3, 0, 2*Math.PI);
+				ctx.stroke();
+				
+				ctx.beginPath();
+				ctx.arc(c.width/2, c.height/2, c.width/4, 0, 2*Math.PI);
+				ctx.stroke();
+				
+				ctx.fillRect(0, c.height / 2, c.width, 1);
+				ctx.fillRect(c.width / 2, 0, 1, c.height);
+				}
+			}
+			function toRad(deg) {
+				return deg * (Math.PI/180);
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="canvas"></canvas>
+	</body>
+</html>
