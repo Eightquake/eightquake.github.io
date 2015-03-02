@@ -23,27 +23,27 @@
 			window.onresize = function() {
 				canvas.width = window.innerWidth;
 				canvas.height = window.innerHeight;
-				width = (canvas.width * 0.75) / 32;
+				width = (canvas.width * 0.75) / (512 / 16);
 			}
 			window.onload = function () {
 				canvas = document.getElementById("canvas");
 				canvas.width = window.innerWidth;
 				canvas.height = window.innerHeight;
-				width = (canvas.width * 0.75) / 32;
+				width = (canvas.width * 0.75) / (512 / 16);
 				context = canvas.getContext("2d"); // canvas context
 
 				acontext = new AudioContext(); // audio context
 				audio = document.getElementById("audio");
-				audio.volume = (location.hash!="#fromindex")?0.5:0;
+				audio.volume = (location.hash!="#fromindex")?1:0;
 				asrc = acontext.createMediaElementSource(audio);
 				analyser = acontext.createAnalyser();
 				asrc.connect(acontext.destination);
 				asrc.connect(analyser);
 				
-				frequencyData = new Uint8Array(analyser.frequencyBinCount);
-				render();
+				frequencyData = new Uint8Array(analyser.frequencyBinCount/2);
 				audio.src = song;
 				audio.play();
+				render();
 			}
 			function render() {
 				requestAnimationFrame(render);
@@ -57,8 +57,8 @@
 				var z = 0;
 				var sum = 0;
 				for (var i = 0; i < frequencyData.length; i++) {
-				    if (i > 0 && i % 32 == 0) {
-				        staples[z] = sum / 32;
+				    if (i > 0 && i % 16 == 0) {
+				        staples[z] = sum / 16;
 				        sum = 0;
 				        z++;
 				    } else {
@@ -66,7 +66,7 @@
 				    }
 				}
 				for(var i=0;i<staples.length;i++) {
-				    context.fillRect(canvas.width * 0.125 + (i * (width)), canvas.height / 2, width, -staples[i] - 2);
+				    context.fillRect(canvas.width * 0.125 + (i * (width)) - 1, canvas.height / 2, width-2, -staples[i] - 2);
 				}
 				context.fillRect(canvas.width * 0.125 - 10, canvas.height / 2 + 5, width * staples.length + 20, 5);
 			}
