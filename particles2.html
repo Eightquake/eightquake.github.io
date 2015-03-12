@@ -1,0 +1,79 @@
+<html>
+	<head>
+		<title>Particles</title>
+		<style>
+			body {
+				margin:0;
+			}
+		</style>
+		<script>
+			var particles = [], count = prompt("count", 200);
+			var grid = {};
+			var c, ctx;
+			window.onload = function() {
+				c = document.getElementById("c");
+				c.width = window.innerWidth;
+				c.height = window.innerHeight;
+				ctx = c.getContext("2d");
+				
+				grid.width = c.width / 50;
+				grid.height = c.height / 50;
+				grid.vertical = 4;
+				grid.horisontal = 4;
+				
+				for(var i=0; i < count; i++) {
+					particles[i] = {};
+					particles[i].speed = (Math.random()*4);
+					particles[i].x = Math.round(Math.random()*(c.width-10));
+					particles[i].y = Math.round(Math.random()*(c.height-10));
+					particles[i].direction = Math.round(Math.random()*360);
+					particles[i].canxinvert = true;
+					particles[i].canyinvert = true;
+					particles[i].gridv = 0;
+					particles[i].gridh = 0;
+				}
+				
+				ctx.strokeStyle = "#FFF";
+				render();
+			}
+			function render() {
+				requestAnimationFrame(render);
+				
+				ctx.clearRect(0, 0, c.width, c.height);
+				ctx.fillStyle = "#333";
+				ctx.fillRect(0, 0, c.width, c.height);
+				
+				ctx.fillStyle = "#FFF";
+				for(var i=0; i < particles.length; i++) {
+					if(particles[i].x <= 10) { particles[i].canxinvert = false; particles[i].direction += 180; } else { particles[i].canxinvert = true; }
+					if(particles[i].x >= c.width-10) { particles[i].canxinvert = false; particles[i].direction += 180; } else { particles[i].canxinvert = true; }
+					
+					if(particles[i].y <= 10) { particles[i].canyinvert = false; particles[i].direction += 180; } else { particles[i].canyinvert = true; }
+					if(particles[i].y >= c.height-10) { particles[i].direction += 180; } else { particles[i].canyinvert = true; }
+					
+					particles[i].gridv =  Math.round(particles[i].x / grid.width);
+					particles[i].gridh =  Math.round(particles[i].y / grid.width);
+					
+					particles[i].y += Math.round(Math.sin(particles[i].direction) * particles[i].speed);
+					particles[i].x += Math.round(Math.cos(particles[i].direction) * particles[i].speed);
+					
+					ctx.beginPath();
+					ctx.arc(particles[i].x, particles[i].y, 3, 0, 2 * Math.PI);
+					ctx.fill();
+					
+					for (var ii=0; ii<particles.length;ii++) {
+						if(i != ii && (Math.abs(particles[i].gridv - particles[ii].gridv) < 2 && Math.abs(particles[i].gridh - particles[ii].gridh) < 2)) {
+							ctx.beginPath();
+							ctx.moveTo(particles[i].x, particles[i].y);
+							ctx.lineTo(particles[ii].x, particles[ii].y);
+							ctx.stroke();
+						}
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<canvas id="c"></canvas>
+	</body>
+</html>
