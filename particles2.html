@@ -8,7 +8,7 @@
 			}
 		</style>
 		<script>
-			var particles = [], distance = 10, count = 2000;
+			var particles = [], distance = 10, count = 12000;
 			var grid = {}, mouse = {};
 			var c, ctx
 			window.onmousemove = function(e) {
@@ -51,10 +51,10 @@
 				
 				ctx.fillStyle = "#FFF";
 				for(var i=0; i < particles.length; i++) {
-					if(particles[i].x <= 10) { particles[i] = new Particle();}
+					if(particles[i].x <= 10) { particles[i] = new Particle();} else
 					if(particles[i].x >= c.width-10) { particles[i] = new Particle();}
 					
-					if(particles[i].y <= 10) { particles[i] = new Particle();}
+					if(particles[i].y <= 10) { particles[i] = new Particle();} else
 					if(particles[i].y >= c.height-10) { particles[i] = new Particle();}
 					
 					particles[i].gridv =  Math.round(particles[i].x / grid.width);
@@ -64,9 +64,7 @@
 					particles[i].y += Math.sin(particles[i].direction) * particles[i].speed;
 					particles[i].x += Math.cos(particles[i].direction) * particles[i].speed;
 					
-					ctx.beginPath();
-					ctx.arc(particles[i].x, particles[i].y, 3, 0, 2 * Math.PI);
-					ctx.fill();
+					ctx.fillRect(particles[i].x, particles[i].y, 1, 1);
 				}
 			}
 		</script>
