@@ -4,12 +4,16 @@
 		<style>
 			body {
 				margin:0;
+				cursor:crosshair;
 			}
 		</style>
 		<script>
-			var particles = [], count = prompt("count", 200);
-			var grid = {};
-			var c, ctx;
+			var particles = [], distance = 10, count = 2000;
+			var grid = {}, mouse = {};
+			var c, ctx
+			window.onmousemove = function(e) {
+				mouse = {x: e.x, y: e.y, gridv: e.x / grid.width, gridh: e.y / grid.height};
+			}
 			window.onload = function() {
 				c = document.getElementById("c");
 				c.width = window.innerWidth;
@@ -21,20 +25,22 @@
 				grid.vertical = 4;
 				grid.horisontal = 4;
 				
+				mouse = {x: (location.hash == "#fromindex")?c.width/2:0, y: (location.hash == "#fromindex")?c.height/2:0, gridv: (location.hash == "#fromindex")?(c.width/2)/grid.width:0, gridh: (location.hash == "#fromindex")?(c.height/2)/grid.height:0};
 				for(var i=0; i < count; i++) {
-					particles[i] = {};
-					particles[i].speed = (Math.random()*4);
-					particles[i].x = Math.round(Math.random()*(c.width-10));
-					particles[i].y = Math.round(Math.random()*(c.height-10));
-					particles[i].direction = Math.round(Math.random()*360);
-					particles[i].canxinvert = true;
-					particles[i].canyinvert = true;
-					particles[i].gridv = 0;
-					particles[i].gridh = 0;
+					particles[i] = new Particle();
 				}
 				
 				ctx.strokeStyle = "#FFF";
 				render();
+			}
+			
+			function Particle() {
+				this.speed = Math.round((Math.random()*3))+1;
+				this.x = c.width / 2 + (Math.random()*(grid.width*40)-grid.width*20);
+				this.y = c.height / 2 + (Math.random()*(grid.height*40)-grid.height*20);
+				this.direction = 0;
+				this.gridv = 0;
+				this.gridh = 0;
 			}
 			function render() {
 				requestAnimationFrame(render);
@@ -45,30 +51,22 @@
 				
 				ctx.fillStyle = "#FFF";
 				for(var i=0; i < particles.length; i++) {
-					if(particles[i].x <= 10) { particles[i].canxinvert = false; particles[i].direction += 180; } else { particles[i].canxinvert = true; }
-					if(particles[i].x >= c.width-10) { particles[i].canxinvert = false; particles[i].direction += 180; } else { particles[i].canxinvert = true; }
+					if(particles[i].x <= 10) { particles[i] = new Particle();}
+					if(particles[i].x >= c.width-10) { particles[i] = new Particle();}
 					
-					if(particles[i].y <= 10) { particles[i].canyinvert = false; particles[i].direction += 180; } else { particles[i].canyinvert = true; }
-					if(particles[i].y >= c.height-10) { particles[i].direction += 180; } else { particles[i].canyinvert = true; }
+					if(particles[i].y <= 10) { particles[i] = new Particle();}
+					if(particles[i].y >= c.height-10) { particles[i] = new Particle();}
 					
 					particles[i].gridv =  Math.round(particles[i].x / grid.width);
-					particles[i].gridh =  Math.round(particles[i].y / grid.width);
-					
-					particles[i].y += Math.round(Math.sin(particles[i].direction) * particles[i].speed);
-					particles[i].x += Math.round(Math.cos(particles[i].direction) * particles[i].speed);
+					particles[i].gridh =  Math.round(particles[i].y / grid.height);
+					particles[i].speed = 10 / (Math.abs(particles[i].gridv - mouse.gridv) + Math.abs(particles[i].gridh - mouse.gridh));
+					particles[i].direction = Math.atan2(particles[i].y - mouse.y, particles[i].x - mouse.x);
+					particles[i].y += Math.sin(particles[i].direction) * particles[i].speed;
+					particles[i].x += Math.cos(particles[i].direction) * particles[i].speed;
 					
 					ctx.beginPath();
 					ctx.arc(particles[i].x, particles[i].y, 3, 0, 2 * Math.PI);
 					ctx.fill();
-					
-					for (var ii=0; ii<particles.length;ii++) {
-						if(i != ii && (Math.abs(particles[i].gridv - particles[ii].gridv) < 2 && Math.abs(particles[i].gridh - particles[ii].gridh) < 2)) {
-							ctx.beginPath();
-							ctx.moveTo(particles[i].x, particles[i].y);
-							ctx.lineTo(particles[ii].x, particles[ii].y);
-							ctx.stroke();
-						}
-					}
 				}
 			}
 		</script>
