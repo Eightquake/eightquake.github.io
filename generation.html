@@ -11,36 +11,36 @@
 		</style>
 		<script>
 			var canvas, context;
-			var map = [], mWidth = 100, mHeight = 50, b = 0, rSteps = 3000;
-			var keys = [], player = {y:mHeight/2, x:mWidth/2};
+			var mapSettings = {width: 160, height: 90}, grid = {};
+			var map = [], rSteps = 3000;
+			var keys = [], player = {y:mapSettings.height/2, x:mapSettings.width/2};
 			window.onload = function() {
 				canvas = document.getElementById("canvas");
 				context = canvas.getContext("2d");
 				canvas.width=window.innerWidth;
 				canvas.height=window.innerHeight;
-				b = Math.floor(canvas.height/mHeight);
+				grid = {width: Math.round(canvas.width/mapSettings.width), height: Math.round(canvas.height/mapSettings.height)};
 				// fill entire map
-				for(var y=0;y<mHeight;y++){
+				for(var y=0;y<mapSettings.height;y++){
 					map[y] = [];
-					for(var x=0;x<mWidth;x++){
+					for(var x=0;x<mapSettings.width;x++){
 						map[y][x] = 1;
 					}
 				}
 				// remove part of map
-				var remove={y:mHeight/2, x:mWidth/2};
+				var remove = {y:mapSettings.height/2, x:mapSettings.width/2};
 				for(var i=0;i<rSteps;i++){
-					map[remove.y][remove.x] = 0;
 					var dir = Math.random();
 					if(dir < 0.25) {if(remove.x > 0) remove.x--;
-					}else if(dir < 0.50) {if(remove.x < mWidth)remove.x++;
+					}else if(dir < 0.50) {if(remove.x < mapSettings.width-1)remove.x++;
 					}else if(dir < 0.75) {if(remove.y > 0)remove.y--;
-					}else if(dir < 1) {if(remove.y < mHeight)remove.y++;}
+					}else if(dir < 1) {if(remove.y < mapSettings.height-1)remove.y++;}
+					map[remove.y][remove.x] = 0;
 				}
 				
 				draw();
 			}
 			window.onkeydown = function(e){
-				console.log(e.keyCode);
 				keys[e.keyCode] = true;
 			}
 			window.onkeyup = function(e){
@@ -51,16 +51,16 @@
 				context.clearRect(0,0,canvas.width,canvas.height);
 				context.fillStyle="#333";
 				context.fillRect(0,0,canvas.width,canvas.height);
-				for(var y=0;y<mHeight;y++){
-					for(var x=0;x<mWidth;x++){
+				for(var y=0;y<mapSettings.height;y++){
+					for(var x=0;x<mapSettings.width;x++){
 						context.fillStyle="#000";
 						if(map[y][x]) {
-							context.fillRect(x*b,y*b,b,b);
+							context.fillRect(x*grid.width,y*grid.height,grid.width,grid.height);
 						}
 					}
 				}
 				context.fillStyle="#F00";
-				context.fillRect(player.x*b+1, player.y*b+1, b-1, b-2);
+				context.fillRect(player.x*grid.width+1, player.y*grid.height+1, grid.width-1, grid.height-2);
 				
 				if(keys[37] && !map[player.y][player.x-1]) {
 					player.x--;
