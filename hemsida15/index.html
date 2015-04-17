@@ -10,7 +10,7 @@
             height:100%;
             margin:0;
             font-family:Arial;
-            background-color:#546E7A;
+            background-color:#91AA9D;
             overflow:hidden;
         }
 
@@ -22,7 +22,10 @@
             position:absolute;
             top:0; left:0;
             z-index:5;
-            background-color:#607D8B;
+            background-color:#193441;
+            -moz-box-shadow:1px 1px 1px #000000;
+            -webkit-box-shadow:1px 1px 1px #000000;
+            box-shadow:1px 1px 1px #000000;
         }
             #sidebar span {
                 display:block;
@@ -34,7 +37,7 @@
             }
             #sidebar span i {
                 padding:15px;
-                color:#CCC;
+                color:#FCFFF5;
                 text-shadow:2px 1px 2px #000;
             }
         main {
@@ -44,14 +47,33 @@
             top:0; left:25%;
         }
         .page {
-            width:100%;
+            width:75%;
             height:100%;
             position:fixed;
-            left:100%;
+            left:105%;
             transition:2s;
+            color:#FFF;
+            background-color:#3E606F;
+            -moz-box-shadow:-1px 0px 5px #000000;
+            -webkit-box-shadow:-1px 0px 5px #000000;
+            box-shadow:-1px 0px 5px #000000;
+            overflow-y:auto;
+        }
+        .page img {
+            display:block;
+            border-radius:100%;
+            width:300px;
+            margin:2% auto;
+        }
+        .page section {
+            width:75%;
+            margin:0 auto;
+        }
+        .page h1 {
+            text-align:center;
         }
         .page:target {
-            left:0%;
+            left:25%;
         }
     </style>
 </head>
@@ -59,19 +81,23 @@
     <nav id="sidebar">
         <span>
             <a href="#user"><i class="fa fa-user fa-4x"></i></a><br>
-            <a href="#archive"><i class="fa fa-archive fa-4x"></i></a><br>
-            <a href="#code"><i class="fa fa-code fa-4x"></i></a>
+            <a href="#code"><i class="fa fa-code fa-4x"></i></a><br>
+            <a href="#gallery"><i class="fa fa-picture-o fa-4x"></i></a>
         </span>
     </nav>
     <main>
-        <div id="user" class="page" style="background-color:#009688;">
-            <h1>User</h1>
+        <div id="user" class="page">
+            <img src="victor.png">
+            <section>
+                <h1>Victor Davidsson</h1>
+                <p>I am</p>
+            </section>
         </div>
-        <div id="archive" class="page" style="background-color:#673AB7;">
-            <h1>Archive</h1>
+        <div id="code" class="page">
+            <h1>Code</h1>
         </div>
-        <div id="code" class="page" style="background-color:#3F51B5;">
-
+        <div id="gallery" class="page">
+            <h1>Gallery</h1>
         </div>
     </main>
 </body>
