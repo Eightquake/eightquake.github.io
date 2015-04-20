@@ -35,10 +35,50 @@
                 transform: translate(0, -50%);
                 text-align:center;
             }
+            #sidebar span button {
+                position: relative;
+                display: block;
+                margin: 0px auto;
+                padding: 0;
+                border-width: 0;
+                outline: none;
+                background:none;
+                color: #ecf0f1;
+                width:70px;
+                height:70px;
+                transition: background-color .3s;
+            }
+            #sidebar span button:before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                display: block;
+                width: 0;
+                padding-top: 0;
+                border-radius: 100%;
+                background-color: rgba(236, 240, 241, .3);
+                -webkit-transform: translate(-50%, -50%);
+                -moz-transform: translate(-50%, -50%);
+                -ms-transform: translate(-50%, -50%);
+                -o-transform: translate(-50%, -50%);
+                transform: translate(-50%, -50%);
+            }
+            #sidebar span button:focus {
+                outline:none;
+            }
+            #sidebar span .animate:before {
+                width: 100%;
+                padding-top: 100%;
+                transition: width .2s, padding-top .2s;
+            }
             #sidebar span i {
                 padding:15px;
                 color:#FCFFF5;
+                font-size:24pt;
+                text-align:center;
                 text-shadow:2px 1px 2px #000;
+                overflow:hidden;
             }
         main {
             width:75%;
@@ -51,7 +91,10 @@
             height:100%;
             position:fixed;
             left:105%;
-            transition:2s;
+            transition: all 1s cubic-bezier(.5, .2, .2, 1.2);
+            -webkit-transition: all 1s cubic-bezier(.5, .2, .2, 1.2);
+            -moz-transition: all 1s cubic-bezier(.5, .2, .2, 1.2);
+            -o-transition: all 1s cubic-bezier(.5, .2, .2, 1.2);
             color:#FFF;
             background-color:#3E606F;
             -moz-box-shadow:-1px 0px 5px #000000;
@@ -76,13 +119,22 @@
             left:25%;
         }
     </style>
+    <script>
+        function buttonAnimate(element) {
+            if(element.className == "animate") {
+                element.className = "";
+            } else {
+                element.className = "animate"; setTimeout(function(){element.className=""}, 200);
+            }
+        }
+    </script>
 </head>
 <body>
     <nav id="sidebar">
         <span>
-            <a href="#user"><i class="fa fa-user fa-4x"></i></a><br>
-            <a href="#code"><i class="fa fa-code fa-4x"></i></a><br>
-            <a href="#gallery"><i class="fa fa-picture-o fa-4x"></i></a>
+            <a href="#user"><button onclick="buttonAnimate(this)"><i class="fa fa-user fa-fw"></i></button></a><br>
+            <a href="#code"><button onclick="buttonAnimate(this)"><i class="fa fa-code fa-fw"></i></button></a><br>
+            <a href="#gallery"><button onclick="buttonAnimate(this)"><i class="fa fa-picture-o fa-fw"></button></i></a>
         </span>
     </nav>
     <main>
