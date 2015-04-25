@@ -12,20 +12,20 @@
 		<script>
 			var canvas, context;
 			var weight = [], anchor = [];
-			
+
 			var startTime = new Date().getTime();
 			var lastTime = new Date().getTime();
-			
+
 			window.onload = function() {
 				canvas = document.getElementById("canvas");
 				context = canvas.getContext("2d");
-				
+
 				canvas.width = window.innerWidth;
 				canvas.height = window.innerHeight;
-				
+
 				for(var i=0;i<(canvas.width/15)+1;i++) {
 					weight.push({x:i*15, y:100, amplitude: Math.random()*4, omega: Math.random()*2});
-					
+
 					anchor.push({x: i*15, y:0});
 				}
 				draw();
@@ -34,15 +34,15 @@
 				requestAnimationFrame(draw);
 				var t = (lastTime-startTime)/1000;
 				lastTime = new Date().getTime();
-				
+
 				context.clearRect(0,0,canvas.width,canvas.height);
-				
+
 				context.fillStyle="#333";
 				context.fillRect(0,0,canvas.width,canvas.height);
-				
+
 				for(var i=0;i<weight.length;i++) {
 					weight[i].y += weight[i].amplitude*Math.sin(weight[i].omega*t);
-					
+
 					context.fillStyle="#FFF";
 					context.strokeStyle="#FFF";
 					context.beginPath();
