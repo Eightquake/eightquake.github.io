@@ -1,0 +1,85 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      margin:0;
+      width:100%;
+      height:100%;
+    }
+  </style>
+  <script>
+    var c, ctx;
+    var copypastas = ["What the fuck did you just fucking say about me, you little bitch? I'll have you know I graduated top of my class in the text Seals, and I've been involved in numerous secret raids on Al-Quaeda, and I have over 300 confirmed kills. I am trained in gorilla warfare and I'm the top sniper in the entire US armed forces. You are nothing to me but just another target. I will wipe you the fuck out with precision the likes of which has never been seen before on this Earth, mark my fucking words. You think you can get away with saying that shit to me over the Internet? Think again, fucker. As we speak I am contacting my secret network of spies across the USA and your IP is being traced right now so you better prepare for the storm, maggot. The storm that wipes out the pathetic little thing you call your life. You're fucking dead, kid. I can be anywhere, anytime, and I can kill you in over seven hundred ways, and that's just with my bare hands. Not only am I extensively trained in unarmed combat, but I have access to the entire arsenal of the United States Marine Corps and I will use it to its full extent to wipe your miserable ass off the face of the continent, you little shit. If only you could have known what unholy retribution your little 'clever' comment was about to bring down upon you, maybe you would have held your fucking tongue. But you couldn't, you didn't, and now you're paying the price, you goddamn idiot. I will shit fury all over you and you will drown in it. You're fucking dead, kiddo.",
+    "I sexually Identify as an Attack Helicopter. Ever since I was a boy I dreamed of soaring over the oilfields dropping hot sticky loads on disgusting foreigners. People say to me that a person being a helicopter is impossible and I'm fucking retarded but I don't care, I'm beautiful. I'm having a plastic surgeon install rotary blades, 30 mm cannons and AMG-114 Hellfire missiles on my body. From now on I want you guys to call me 'Apache' and respect my right to kill from above and kill needlessly. If you can't accept me you're a heliphobe and need to check your vehicle privilege. Thank you for being so understanding.",
+    "hi every1 im new!!!!!!! holds up spork my name is katy but u can call me t3h PeNgU1N oF d00m!!!!!!!! lol...as u can see im very random!!!! thats why i came here, 2 meet random ppl like me _... im 13 years old (im mature 4 my age tho!!) i like 2 watch invader zim w/ my girlfreind (im bi if u dont like it deal w/it) its our favorite tv show!!! bcuz its SOOOO random!!!! shes random 2 of course but i want 2 meet more random ppl =) like they say the more the merrier!!!! lol...neways i hope 2 make alot of freinds here so give me lots of commentses!!!! DOOOOOMMMM!!!!!!!!!!!!!!!! <--- me bein random again _^ hehe...toodles!!!!!",
+    "Aoccdrnig to rscheearch at Cmabrigde uinervtisy, it deosn't mttaer waht oredr the ltteers in a wrod are, the olny iprmoetnt tihng is taht the frist and lsat ltteres are at the rghit pclae. The rset can be a tatol mses and you can sitll raed it wouthit a porbelm. Tihs is bcuseae we do not raed ervey lteter by it slef but the wrod as a wlohe."];
+    var text = {
+      index: 0,
+      wordIndex: 0,
+      charIndex: 0
+    }
+    var type = new Audio("type.wav");
+    var sheet = {
+      img: new Image(),
+      width: 64,
+      height: 132,
+      offset: 0
+    }
+    var projectiles = [];
+    window.onkeypress = function(e) {
+      if((e.keyCode == text.string.charCodeAt(text.index)) || (e.keyCode == 13 && text.string.charCodeAt(text.index) == 32)) {
+        type.currentTime = 0;
+        type.play();
+        text.index++;
+        text.charIndex++;
+        sheet.offset++;
+        if(sheet.offset>4) {
+          sheet.offset=0;
+        }
+        if(e.keyCode == 32 || e.keyCode == 13) {
+          projectiles.push({x: 114, y: 182, text: text.string.split(" ")[text.wordIndex]});
+          text.wordIndex++;
+          text.charIndex = 0;
+        }
+      }
+    }
+    window.onload = function() {
+      c = document.getElementById("c");
+      ctx = c.getContext("2d");
+      c.width = window.innerWidth;
+      c.height = window.innerHeight;
+      ctx.font = "48px Courier New";
+
+      text.string = copypastas[Math.floor(Math.random() * copypastas.length)];
+      sheet.img.src = "sheet.png";
+      draw();
+    }
+
+    function draw() {
+      window.requestAnimationFrame(draw);
+      ctx.clearRect(0, 0, c.width, c.height);
+
+      var word = text.string.split(" ")[text.wordIndex];
+      for(var i=0; i<word.length; i++) {
+        ctx.fillStyle = text.charIndex>i?"#000":"#CCC";
+        ctx.fillText(word.charAt(i), 20 + (i*26), 50);
+      }
+      ctx.drawImage(sheet.img, sheet.width*sheet.offset, 0, sheet.width, sheet.height, 50, 70, sheet.width, sheet.height);
+
+      for(var i=0; i<projectiles.length; i++) {
+        ctx.fillStyle = "#000";
+        ctx.fillText(projectiles[i].text, projectiles[i].x, projectiles[i].y);
+        projectiles[i].x += 15;
+        if(projectiles[i].x > c.width) {
+          projectiles.splice(i, 1);
+          i--;
+        }
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="c"></canvas>
+</body>
+</html>
